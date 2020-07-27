@@ -1,0 +1,1 @@
+This directory contains all the files relating to the video model of this project.
