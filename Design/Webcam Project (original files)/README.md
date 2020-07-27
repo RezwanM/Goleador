@@ -1,0 +1,2 @@
+# JS SDK Demo
+This repository houses the code for the JavaScript SDK demo, as described in [this video](https://affdex-sdk-dist.s3.amazonaws.com/js/Affectiva+JS+SDK+2.mp4). You can also find more information in [the documentation](https://knowledge.affectiva.com/v4.0.0?auth_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiR2lsZm95bGUiLCJlbWFpbCI6ImdpbGZveWxlQHBpZWRwaXBlci5jb20iLCJhcGlLZXkiOiJ0ZXN0XzEyM3NsZG9paCIsImlhdCI6MTU4NzU4Mzg5OH0.EDbq5f6OHkt_RZpUkJ77WvSdbT4hIIR0hYoRafYkjds).
