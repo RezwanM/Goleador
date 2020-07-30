@@ -26,6 +26,8 @@ function log(node_name, msg) {
   $(node_name).append("<span>" + msg + "</span><br />")
 }
 
+var xV = document.getElementById("final_note");
+
 //function executes when Start button is pushed.
 function onStart() {
   if (detector && !detector.isRunning) {
@@ -33,6 +35,9 @@ function onStart() {
     detector.start();
   }
   log('#logs', "Clicked the start button");
+
+  //Letting the final note display at the end only
+  xV.style.display = "none";
 }
 
 //function executes when the Reset button is pushed.
@@ -68,6 +73,7 @@ var joye = [];
 var sade = [];
 var feare = [];
 var surpe = [];
+var valene = [];
 var framenum = [];
 var ind = 0;
 
@@ -85,10 +91,21 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
   log('#results', "Number of faces found: " + faces.length);
 
   if (faces.length > 0) {
-    log('#results', "Appearance: " + JSON.stringify(faces[0].appearance));
-    log('#results', "Emotions: " + JSON.stringify(faces[0].emotions, function(key, val) {
-      return val.toFixed ? Number(val.toFixed(0)) : val;
-    }));
+    //log('#results', "Appearance: " + JSON.stringify(faces[0].appearance));
+    //log('#results', "Emotions: " + JSON.stringify(faces[0].emotions, function(key, val) {
+    //  return val.toFixed ? Number(val.toFixed(0)) : val;
+    //}));
+
+    var xSm = document.getElementById("ressm");
+    var xSad = document.getElementById("ressad");
+
+    if (faces[0].emotions['valence'] >= 0) {
+      xSm.style.display = "block";
+      xSad.style.display = "none";
+    } else {
+      xSm.style.display = "none";
+      xSad.style.display = "block";
+    }
 
     ind += 1;
 
@@ -120,17 +137,19 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
 
     //adding frame values to their respective arrays
     framenum.push(ind);
+    valene.push(faces[0].emotions['valence'].toFixed(0));
     joye.push(faces[0].emotions['joy'].toFixed(0));
     sade.push(faces[0].emotions['sadness'].toFixed(0));
     feare.push(faces[0].emotions['fear'].toFixed(0));
     surpe.push(faces[0].emotions['surprise'].toFixed(0));
 
-    log('#results', "Expressions: " + JSON.stringify(faces[0].expressions, function(key, val) {
+    /*log('#results', "Expressions: " + JSON.stringify(faces[0].expressions, function(key, val) {
       return val.toFixed ? Number(val.toFixed(0)) : val;
-    }));
-    log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
-    if($('#face_video_canvas')[0] != null)
+    }));*/
+    //log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
+    /*if($('#face_video_canvas')[0] != null)
       drawFeaturePoints(image, faces[0].featurePoints);
+      */
   }
 });
 
@@ -141,6 +160,21 @@ function onStop() {
     detector.removeEventListener();
     detector.stop();
   }
+
+  var n = valene.length;
+  var nI = Math.round( n/10 );
+  var valEnd = 0;
+  //alert(nI);
+  for (var i = n - nI-1; i < n; ++i) {
+    if (valene[i]>=0) {
+      valEnd +=1;
+    }
+  }
+  //alert(valEnd);
+  if (valEnd >= (nI*0.7)) {
+    xV.style.display = "block";
+  }
+
 
   var joy_em = {
   x: framenum,
@@ -185,28 +219,16 @@ function onStop() {
 
   Plotly.newPlot('tester', data4, layout);
 
-  /*
-  let csvC = "data:text/csv;charset=utf-8,";
-  csvC += "Index,Joy,Sadness,Fear,Surprise,\n";
-  for (var i = 0; i < sade.length; ++i) {
-    row = i + "," + joye[i] + "," + sade[i] + "," + feare[i] + "," + surpe[i] + "\n";
-    csvC += row;
-  }
+  //re-setting all arrays
+  joye = [];
+  sade = [];
+  feare = [];
+  surpe = [];
+  valene = [];
+//  framenum = [];
 
-  var encodedUri = encodeURI(csvC);
-  var link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "my_data.csv");
-  document.body.appendChild(link); // Required for FF
-
-  link.click();
-  */
 
 };
-
-/*let arr = arr.join(",");
-csvContent += arr + "\r\n";
-*/
 
 //Draw the detected facial feature points on the image
 function drawFeaturePoints(img, featurePoints) {

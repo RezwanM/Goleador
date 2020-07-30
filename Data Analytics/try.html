@@ -9,11 +9,18 @@
 <body>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-8" id="affdex_elements" style="width:680px;height:480px; border: 1px solid;"></div>
+      <div class="col-md-8" id="affdex_elements" style="width:680px;height:480px; "></div>
       <div class="col-md-4">
-        <div style="height:25em;">
+        <div style="height:10em;">
           <strong>EMOTION TRACKING RESULTS</strong>
           <div id="results" style="word-wrap:break-word;"></div>
+        </div>
+        <div style="height:15em;">
+          <strong>Valence emotion</strong>
+          <div id="resultsV" style="word-wrap:break-word;">
+            <img id="ressm" src="images/sm.png" alt="Smiley face" width=auto height="50">
+            <img id="ressad" src="images/sad.png" alt="Sad face" width=auto height="50">
+          </div>
         </div>
         <div>
           <strong>DETECTOR LOG MSGS</strong>
@@ -23,6 +30,7 @@
           <strong>Messages to doctor</strong>
         </div>
         <div id="drlogs"></div>
+        <div id="final_note"> The patient was mostly satisfied before ending the call!</div>
       </div>
     </div>
     <div>
