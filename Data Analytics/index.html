@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+  /* Style to reverse the caret icon from pointing downwards to upwards */
+  .caret.caret-up {
+    border-top-width: 0;
+    border-bottom: 4px solid #fff;
+  }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Select session type</h2>
+  <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Session type
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="try.html">Doctor-Patient</a></li>
+      <li><a href="class.html">Classroom</a></li>
+      <!-- <li><a href="#">JavaScript</a></li> -->
+    </ul>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+  $(".dropdown").on("hide.bs.dropdown", function(){
+    $(".btn").html('Dropdown <span class="caret"></span>');
+  });
+  $(".dropdown").on("show.bs.dropdown", function(){
+    $(".btn").html('Dropdown <span class="caret caret-up"></span>');
+  });
+});
+</script>
