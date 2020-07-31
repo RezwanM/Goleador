@@ -91,6 +91,7 @@ var distra = 0;
 
 //Misunderstanding
 var brow = 0;
+var browR = 0;
 //Sleeping
 var eyeC = 0;
 
@@ -151,9 +152,21 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
 
     //if patient has been sleeping for over 3 seconds display that!
     if (brow >= 30) {
-      log('#drlogs', "The student is sleeping!!!!");
+      log('#drlogs', "The student may be struggling to understand this part\n Please make sure to re-iterate this part");
     }
 
+
+    //keeping track of patient's brow Raise
+    if (faces[0].expressions['browRaise'].toFixed(0) > 0) {
+      browR +=1;
+    } else {
+      browR = 0;
+    }
+
+    //if patient has been sleeping for over 3 seconds display that!
+    if (browR >= 30) {
+      log('#drlogs', "The student may be struggling to understand this part\n Please make sure to re-iterate this part");
+    }
 
     //keeping track of student Attention
     if ( (faces[0].expressions['attention'].toFixed(0) <= 90) && (faces[0].expressions['attention'].toFixed(0) > 60) ) {
