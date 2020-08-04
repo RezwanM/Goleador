@@ -8,109 +8,144 @@ JSSDK.Assets = {
   }
 };
 
-// SDK Needs to create video and canvas nodes in the DOM in order to function
-// Here we are adding those nodes a predefined div.
-// var divRoot = document.querySelector("#affdex_elements");
 var divRoot = document.querySelectorAll(".suspension-content")[1].querySelector('.suspension-content2');
-var width = 640;
+var width = 480;
 var height = 480;
 var faceMode = affdex.FaceDetectorMode.LARGE_FACES;
-//Construct a CameraDetector and specify the image width / height and face detector mode.
 var detector = new affdex.CameraDetector(divRoot, width, height, faceMode);
-
-//Enable detection of all Expressions, Emotions and Emojis classifiers.
-detector.detectAllEmotions();
-detector.detectAllExpressions();
-detector.detectAllEmojis();
-detector.detectAllAppearance();
-
+detector.detectExpressions.smile = true;
+detector.detectExpressions.attention = true;
+detector.detectExpressions.mouthOpen = true;
+detector.detectEmotions.valence = true;
 onStart();
 
-//Add a callback to notify when the detector is initialized and ready for runing.
+// add 'get analysis' button at footer
+var footer = document.querySelector('#wc-footer');
+var container = document.createElement('div');
+container.innerHTML = "<button class='footer__leave-btn ax-outline' type='button' onclick='onStop()'><span class='footer__leave-btn-text'>Get Analysis</span></button>";
+footer.appendChild(container);
+
+function onStart() {
+  if (detector && !detector.isRunning) {
+    detector.start(JSSDK.Assets.wasm);
+  }
+}
+
+function onStop() {
+  if (detector && detector.isRunning) {
+    // stop detector
+    detector.removeEventListener();
+    detector.stop();
+    console.log('STOPPED');
+    document.querySelector('#zmmtg-root').className = "hidden";
+
+    var smileChart = {
+      x: framenum,
+      y: smile_,
+      name: 'Smile',
+      type: 'lines'
+    };
+
+    var attentionChart = {
+      x: framenum,
+      y: attention_,
+      name: 'Attention',
+      type: 'lines'
+    };
+
+    var talkingChart = {
+      x: framenum,
+      y: talking_,
+      name: 'Talking',
+      type: 'lines'
+    };
+
+    var valenceChart = {
+      x: framenum,
+      y: valence_,
+      name: 'Valence',
+      type: 'lines'
+    };
+
+    var data4 = [smileChart, attentionChart, talkingChart, valenceChart];
+
+    var layout = {
+      title: 'Emotions displayed through out the session',
+      xaxis: {
+        title: 'Frame number'
+      },
+      yaxis: {
+        title: 'Emotion detected',
+        showline: false
+      }
+    };
+
+    Plotly.newPlot('analytics', data4, layout);
+
+    //re-setting all arrays
+    smile_ = [];
+    attention_ = [];
+    talking_ = [];
+    valence_ = [];
+  //  framenum = [];
+  }
+};
+
 detector.addEventListener("onInitializeSuccess", function() {
-  // log('#logs', "The detector reports initialized");
-  //Display canvas instead of video feed because we want to draw the feature points on it
+  // var selfMonitorWindow = document.createElement('div');
+  // selfMonitorWindow.classList.add("vsc-controller", "vsc-nosource", "vcs-show", "vsc-hidden");
+  // continue from here
   document.querySelector("#face_video_canvas").style.display = "block";
   document.querySelector("#face_video").style.display = "none";
   console.log("DETECTOR INITIALIZED");
 
 });
 
-function log(node_name, msg) {
-  document.querySelector(node_name).innerHTML += "<span>" + msg + "</span><br />";
-}
-
-//function executes when Start button is pushed.
-function onStart() {
-  if (detector && !detector.isRunning) {
-    //document.querySelector("#logs").innerHTML = "";
-    detector.start(JSSDK.Assets.wasm);
-  }
-  // log('#logs', "Clicked the start button");
-}
-
-//function executes when the Stop button is pushed.
-function onStop() {
-  // log('#logs', "Clicked the stop button");
-  if (detector && detector.isRunning) {
-    detector.removeEventListener();
-    detector.stop();
-  }
-};
-
-//function executes when the Reset button is pushed.
-function onReset() {
-  // log('#logs', "Clicked the reset button");
-  if (detector && detector.isRunning) {
-    detector.reset();
-
-    document.querySelector('#results').innerHTML = "";
-  }
-};
-
-//Add a callback to notify when camera access is allowed
 detector.addEventListener("onWebcamConnectSuccess", function() {
-  // log('#logs', "Webcam access allowed");
   console.log("Webcam access allowed");
 });
 
-//Add a callback to notify when camera access is denied
 detector.addEventListener("onWebcamConnectFailure", function() {
-  // log('#logs', "webcam denied");
   console.log("Webcam access denied");
 });
 
-//Add a callback to notify when detector is stopped
 detector.addEventListener("onStopSuccess", function() {
-  // log('#logs', "The detector reports stopped");
-  // document.querySelector("#results").innerHTML = "";
   console.log("DETECTOR WAS STOPPED")
 });
 
-//Add a callback to receive the results from processing an image.
-//The faces object contains the list of the faces detected in an image.
-//Faces object contains probabilities for all the different expressions, emotions and appearance metrics
-detector.addEventListener("onImageResultsSuccess", function(faces, image, timestamp) {
-  // document.querySelector('#results').innerHTML = "";
-  // log('#results', "Timestamp: " + timestamp.toFixed(2));
-  // log('#results', "Number of faces found: " + faces.length);
-  if (faces.length > 0) {
-    // log('#results', "Appearance: " + JSON.stringify(faces[0].appearance));
-    // log('#results', "Emotions: " + JSON.stringify(faces[0].emotions, function(key, val) {
-    //   return val.toFixed ? Number(val.toFixed(0)) : val;
-    // }));
-    // log('#results', "Expressions: " + JSON.stringify(faces[0].expressions, function(key, val) {
-    //   return val.toFixed ? Number(val.toFixed(0)) : val;
-    // }));
-    // log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
-    if(document.querySelector('#face_video_canvas') != null)
-      drawFeaturePoints(image, faces[0].featurePoints);
-  }
 
+// // let csvContent = "data:text/csv;charset=utf-8,";
+var smile_ = [];
+var attention_ = [];
+var talking_ = [];
+var valence_ = [];
+var framenum = [];
+var ind = 0;
+
+detector.addEventListener("onImageResultsSuccess", function(faces, image, timestamp) {
+  console.log("FINISHED PROCESSING");
+  if (faces.length > 0) {
+    console.log(faces);
+    if(document.querySelector('#face_video_canvas') != null){
+      drawFeaturePoints(image, faces[0].featurePoints);
+    }
+    ind += 1;
+    framenum.push(ind);
+    smile_.push(faces[0].expressions['smile'].toFixed(0));
+    attention_.push(faces[0].expressions['attention'].toFixed(0));
+    talking_.push(faces[0].expressions['mouthOpen'].toFixed(0));
+    valence_.push(faces[0].emotions['valence'].toFixed(0));
+  } else {
+    ind += 1;
+    framenum.push(ind);
+    smile_.push(0);
+    attention_.push(0);
+    talking_.push(0);
+    valence_.push(0);
+  }
   setTimeout(detector.captureNextImage, 150);
 });
 
-//Draw the detected facial feature points on the image
 function drawFeaturePoints(img, featurePoints) {
   var contxt = document.querySelector('#face_video_canvas').getContext('2d');
 

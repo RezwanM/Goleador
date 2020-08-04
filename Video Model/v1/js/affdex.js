@@ -256,8 +256,8 @@ affdex.CameraDetector = function(element, imgW, imgH, faceMode) {
     canvasElement = document.createElement("canvas");
     canvasElement.id = "face_video_canvas";
     //
-    canvasElement.width = self.videoElement.videoWidth;
-    canvasElement.height = self.videoElement.videoHeight;
+    canvasElement.width = docElement.width;
+    canvasElement.height = docElement.height;
     canvasElement.style.display = "none";
     docElement.appendChild(canvasElement);
     canvasContext = canvasElement.getContext('2d');
