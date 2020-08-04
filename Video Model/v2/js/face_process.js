@@ -81,8 +81,62 @@ detector.addEventListener("onInitializeFailure", function() {
 
 //function executes when the Stop button is pushed.
 function onStop() {
-  console.log('STOPPED');
-  window.open('../analytics.html', "_blank");
+  if (detector && detector.isRunning) {
+    detector.removeEventListener();
+    detector.stop();
+    console.log('STOPPED');
+    document.querySelector('#zmmtg-root').className = "hidden";
+
+  //   var smileChart = {
+  //     x: framenum,
+  //     y: smile_,
+  //     name: 'Smile',
+  //     type: 'lines'
+  //   };
+  //
+  //   var attentionChart = {
+  //     x: framenum,
+  //     y: attention_,
+  //     name: 'Attention',
+  //     type: 'lines'
+  //   };
+  //
+  //   var talkingChart = {
+  //     x: framenum,
+  //     y: talking_,
+  //     name: 'Talking',
+  //     type: 'lines'
+  //   };
+  //
+  //   var valenceChart = {
+  //     x: framenum,
+  //     y: valence_,
+  //     name: 'Valence',
+  //     type: 'lines'
+  //   };
+  //
+  //   var data4 = [smileChart, attentionChart, talkingChart, valenceChart];
+  //
+  //   var layout = {
+  //     title: 'Emotions displayed through out the session',
+  //     xaxis: {
+  //       title: 'Frame number'
+  //     },
+  //     yaxis: {
+  //       title: 'Emotion detected',
+  //       showline: false
+  //     }
+  //   };
+  //
+  //   Plotly.newPlot('analytics', data4, layout);
+  //
+  //   //re-setting all arrays
+  //   smile_ = [];
+  //   attention_ = [];
+  //   talking_ = [];
+  //   valence_ = [];
+  // //  framenum = [];
+  }
 };
 
 //Draw the detected facial feature points on the image
