@@ -10,9 +10,18 @@ JSSDK.Assets = {
 
 var faceMode = affdex.FaceDetectorMode.LARGE_FACES;
 var detector = new affdex.FrameDetector(faceMode);
-detector.detectAllEmotions();
+detector.detectEmotions.sadness = true;
+detector.detectEmotions.engagement = true;
+detector.detectExpressions.browRaise = true;
+detector.detectExpressions.innerBrowRaise = true;
 detector.assets = JSSDK.Assets["wasm"];
 detector.start();
+
+// add onStop functionality to 'leave button'
+var footer = document.querySelector('#wc-footer');
+var container = document.createElement('div');
+container.innerHTML = "<button class='footer__leave-btn ax-outline' type='button' onclick='onStop()'><span class='footer__leave-btn-text'>Get Analysis</span></button>";
+footer.appendChild(container);
 
 //Cache the timestamp of the first frame processed
 var startTimestamp = (new Date()).getTime() / 1000;
@@ -21,20 +30,10 @@ detector.addEventListener("onImageResultsSuccess", function(faces, image, timest
   console.log("FINISHED PROCESSING");
   console.log(faces);
   if (faces.length > 0) {
-    // log('#results', "Appearance: " + JSON.stringify(faces[0].appearance));
-    // log('#results', "Emotions: " + JSON.stringify(faces[0].emotions, function(key, val) {
-    //   return val.toFixed ? Number(val.toFixed(0)) : val;
-    // }));
-    // log('#results', "Expressions: " + JSON.stringify(faces[0].expressions, function(key, val) {
-    //   return val.toFixed ? Number(val.toFixed(0)) : val;
-    // }));
-    // log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
     if(document.querySelector('#face_video_canvas') != null)
       drawFeaturePoints(image, faces[0].featurePoints);
       console.log("DRAWS FEATURE POINTS");
   }
-
-
 });
 
 detector.addEventListener("onImageResultsFailure", function(faces, image, timestamp) {
@@ -80,6 +79,11 @@ detector.addEventListener("onInitializeFailure", function() {
   console.log("FAILED INITIALIZING");
 });
 
+//function executes when the Stop button is pushed.
+function onStop() {
+  console.log('STOPPED');
+  window.open('../analytics.html', "_blank");
+};
 
 //Draw the detected facial feature points on the image
 function drawFeaturePoints(img, featurePoints) {
