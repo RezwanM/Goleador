@@ -25,6 +25,14 @@ var container = document.createElement('div');
 container.innerHTML = "<button class='footer__leave-btn ax-outline' type='button' onclick='onStop()'><span class='footer__leave-btn-text'>Get Analysis</span></button>";
 footer.appendChild(container);
 
+// emotions and expressions being tracked
+var smile_ = [];
+var attention_ = [];
+var talking_ = [];
+var valence_ = [];
+var framenum = [];
+var ind = 0;
+
 function onStart() {
   if (detector && !detector.isRunning) {
     detector.start(JSSDK.Assets.wasm);
@@ -70,7 +78,7 @@ function onStop() {
     var data4 = [smileChart, attentionChart, talkingChart, valenceChart];
 
     var layout = {
-      title: 'Emotions displayed through out the session',
+      title: 'Doctor\'s state through out the session',
       xaxis: {
         title: 'Frame number'
       },
@@ -113,21 +121,13 @@ detector.addEventListener("onStopSuccess", function() {
   console.log("DETECTOR WAS STOPPED")
 });
 
-
-// // let csvContent = "data:text/csv;charset=utf-8,";
-var smile_ = [];
-var attention_ = [];
-var talking_ = [];
-var valence_ = [];
-var framenum = [];
-var ind = 0;
-
 detector.addEventListener("onImageResultsSuccess", function(faces, image, timestamp) {
   console.log("FINISHED PROCESSING");
   if (faces.length > 0) {
     console.log(faces);
     if(document.querySelector('#face_video_canvas') != null){
       drawFeaturePoints(image, faces[0].featurePoints);
+      console.log("DRAWS FEATURE POINTS");
     }
     ind += 1;
     framenum.push(ind);
