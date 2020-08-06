@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goleador</title>
+    <link rel="stylesheet" href="./style.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Varela+Round&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Yellowtail&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+
+</head>
+<body>
+    <div class="wrap">
+        <!-- start header -->
+        <header>
+            <img src="./img/logo1.png" alt="LOGO" id="logo_id">
+            <div class="log">oleador</div>
+            <ul class="navbar">
+
+                <li>
+                    <a href="#one"> About </a>
+                </li>
+                <li>
+                    <a href="#two">Fearures</a>
+                </li>
+
+                <li>
+                    <a href="#three">Team</a>
+                </li>
+            </ul>
+
+        </header>
+        <!-- end header -->
+        <!-- start banner -->
+        <div class="banner">
+            <div class="msg" id="firstmsg">
+              <div class="msgt">
+                <h1>Hint:</h1>
+                <p>
+                  The patient has been confused or really concerned, could you elaborate more?
+                </p>
+              </div>
+            </div>
+            <div id="affdex_elements"></div>
+            <div class="btnsIn">
+                <button class="btn btn-outline-primary" id="start" onclick="onStart()">Start</button>
+                <button class="btn btn-outline-primary" id="stop" onclick="onStop()">Stop</button>
+                <button class="btn btn-outline-primary" id="reset" onclick="onReset()">Reset</button>
+                <button class="btn btn-outline-primary" id="info" onclick="window.location.href='#analy';">Info</button>
+
+                <!--<div id="myDIV" style="display:none">
+                    <p>
+                        <strong>Instructions</strong>
+                        </br>
+                        Press the start button to start the detector.
+                        <br/> When a face is detected, the probabilities of the different emotions are written to the DOM.
+                        <br/> Press the stop button to end the detector.
+                    </p>
+                </div>-->
+            </div>
+        </div>
+      </div>
+
+        <!-- end banner -->
+
+        <div id="analy">
+          <h1>Goleador Analytics of the session</h1>
+          <div id="tester" style="width:90%;height:400px;"></div>
+        </div>
+
+        <div id="secondmsg">
+          <img src="./img/icon.png" id="iconid">
+          <div class="msgsa">
+            <p>
+              The patient was satisfied towards the end of the call.
+            </p>
+          </div>
+        </div>
+
+        <!-- start introduction -->
+        <div class="introduction" id="one">
+            <h2>About</h2>
+            <div class="room">
+                <div class="content">
+                    <h3>Hello</h3>
+                    <p>Hello<br>
+                        I am Jessie</p>
+                    <a class="btn" href="#">Learn more</a>
+                </div>
+                <div class="pic">
+                    <img src="./img/service1.jpeg" alt="">
+                </div>
+            </div>
+            <div class="room">
+                <div class="pic">
+                    <img src="./img/service2.jpeg" alt="">
+                </div>
+                <div class="content content_special">
+                    <h3>title </h3>
+                    <p>XXXXXX<br>
+                        XXXXXXX</p>
+                    <a class="btn" href="#">learn more</a>
+                </div>
+            </div>
+        </div>
+        <!-- end introduction -->
+        <!-- start about -->
+        <div class="about" id="two">
+            <div class="pic">
+                <img src="./img/about.jpeg" alt="">
+            </div>
+            <div class="content">
+                <h3>Features</h3>
+                <p>XXX</p>
+                <a href="#" class="btn">Learn More </a>
+            </div>
+        </div>
+        <!-- end about -->
+        <!-- start show -->
+        <div class="show" id="three">
+            <h2>Team</h2>
+            <div class="card_grup">
+                <div class="card">
+                    <div class="pic">
+                        <img src="./img/show1.jpeg" alt="">
+                    </div>
+                    <h3>person1</h3>
+                    <p>who are you </p>
+                </div>
+                <div class="card">
+                    <div class="pic">
+                        <img src="./img/show2.jpeg" alt="">
+                    </div>
+                    <h3>person2</h3>
+                    <p>who are you</p>
+                </div>
+                <div class="card">
+                    <div class="pic">
+                        <img src="./img/show3.jpeg" alt="">
+                    </div>
+                    <h3>person3</h3>
+                    <p>who are you</p>
+                </div>
+                <div class="card">
+                    <div class="pic">
+                        <img src="./img/show3.jpeg" alt="">
+                    </div>
+                    <h3>person4</h3>
+                    <p>who are you</p>
+                </div>
+                <div class="card">
+                    <div class="pic">
+                        <img src="./img/show3.jpeg" alt="">
+                    </div>
+                    <h3>person5</h3>
+                    <p>who are you</p>
+                </div>
+
+
+            </div>
+        </div>
+        <!-- end show -->
+        <!--start footer -->
+        <footer>
+            <div class="content">
+                <p>Goleador</p>
+            </div>
+        </footer>
+        <!--end footer -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+    <script src="https://download.affectiva.com/js/3.2.1/affdex.js"> </script>
+    <script type="text/javascript" src="main.js"></script>
+</body>
+</html>
